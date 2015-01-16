@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>370</width>
+    <height>345</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Komunikator</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QTableView" name="Znajomi">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>9</y>
+      <width>351</width>
+      <height>301</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::AdjustIgnored</enum>
+    </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::DoubleClicked</set>
+    </property>
+    <property name="alternatingRowColors">
+     <bool>false</bool>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::SingleSelection</enum>
+    </property>
+    <property name="selectionBehavior">
+     <enum>QAbstractItemView::SelectRows</enum>
+    </property>
+    <attribute name="horizontalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="verticalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+     <bool>false</bool>
+    </attribute>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>370</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuUstawienia">
+    <property name="title">
+     <string>Ustawienia</string>
+    </property>
+    <addaction name="actionPolaczenie"/>
+   </widget>
+   <widget class="QMenu" name="menuU_ytkownik">
+    <property name="title">
+     <string>Użytkownik</string>
+    </property>
+    <addaction name="actionLogowanie"/>
+    <addaction name="actionZablokuj_konto"/>
+    <addaction name="actionUsu_konto"/>
+    <addaction name="actionZmie_klucz_publiczny"/>
+    <addaction name="actionWyloguj"/>
+    <addaction name="separator"/>
+    <addaction name="actionZarejestruj_konto"/>
+   </widget>
+   <widget class="QMenu" name="menuZnajomi">
+    <property name="title">
+     <string>Znajomi</string>
+    </property>
+    <addaction name="actionSzukaj"/>
+   </widget>
+   <addaction name="menuUstawienia"/>
+   <addaction name="menuU_ytkownik"/>
+   <addaction name="menuZnajomi"/>
+  </widget>
+  <action name="actionPolaczenie">
+   <property name="text">
+    <string>Połączenie</string>
+   </property>
+  </action>
+  <action name="actionLogowanie">
+   <property name="text">
+    <string>Zaloguj</string>
+   </property>
+  </action>
+  <action name="actionZarejestruj_konto">
+   <property name="text">
+    <string>Zarejestruj konto</string>
+   </property>
+  </action>
+  <action name="actionZablokuj_konto">
+   <property name="text">
+    <string>Zablokuj konto</string>
+   </property>
+  </action>
+  <action name="actionUsu_konto">
+   <property name="text">
+    <string>Usuń konto</string>
+   </property>
+  </action>
+  <action name="actionWyloguj">
+   <property name="text">
+    <string>Wyloguj</string>
+   </property>
+  </action>
+  <action name="actionSzukaj">
+   <property name="text">
+    <string>Szukaj</string>
+   </property>
+  </action>
+  <action name="actionZmie_klucz_publiczny">
+   <property name="text">
+    <string>Zmień klucz publiczny</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
