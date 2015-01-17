@@ -20,7 +20,7 @@ class STTP
 	const bool direction;	//true <-> do sieci, false <-> z sieci
 	const int dataFieldLen;
 	queue<RawData>* netQueue;
-	queue<RawData>* controllerQueue;
+	queue<PrioritableRawData>* controllerQueue;
 	unsigned char frameCtrlNr;
 	RawData buffer;
 	string session_key;
@@ -28,7 +28,7 @@ class STTP
 	void to_net(RawData data);	//wsadza dane do kolejki ni¿szej warstwy
 	void to_controller(RawData data);	//wsadza dane do kolejki wy¿szej warstwy
 	RawData from_net();			//pobiera dane z kolejki od ni¿szej warstwy
-	RawData from_controller();	//pobiera dane z kolejki od wy¿szej warstwy
+	PrioritableRawData from_controller();	//pobiera dane z kolejki od wy¿szej warstwy
 	RawData prepare_sttp_frame(RawData dataField);	//zwróci puste RawData!!!, jeœli dataField ma wiêcej bajtów ni¿ 26
 	int single_send();	//zwraca iloœæ bajtów wys³anych wewn¹trz pola danych ramki STTP
 	void single_receive();

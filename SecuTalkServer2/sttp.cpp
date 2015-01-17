@@ -25,15 +25,15 @@ RawData STTP::from_net()
 	return data;
 };
 
-RawData STTP::from_controller()
+PrioritableRawData STTP::from_controller()
 {
-	RawData data;
+	PrioritableRawData data;
 	
 	//lock + jakaœ obrona przed pust¹ kolejk¹
-	data = controllerQueue->pop();
+	pData = controllerQueue->pop();
 	//unlock + ew. jakiœ sygna³ o pe³nej kolejce
 	
-	return data;
+	return pData;
 };
 
 RawData STTP::prepare_sttp_frame(RawData dataField)
@@ -71,29 +71,41 @@ RawData STTP::prepare_sttp_frame(RawData dataField)
 
 int STTP::single_send()
 {
-	buffer.add_data(from_controller());
-	//powy¿ej OK
+	PrioritableRawData pData = from_controller();
+	data = pData.data;
+	bool urgent = pData.urgent;
+	
+	buffer.add_data(data);
+
 	RawData dataField;
 	int minLen, actualLen;
 	
+	if (urgent)	//jeœli pilne, wyœlemy z bufora wszystko,
+		minLen = 1;	// nawet jeœli w ostatniej iteracji zostanie pojedyñczy bajt
+	else		//jeœli nie pilne, to bierzemy tylko ca³ymi d³ugoœciami
+		minLen = STTP_DATA_FIELD_LEN;	//pola danych ramki STTP, najwy¿ej coœ zostanie w buforze
+
 	int buffer_data_size = buffer.get_data_size();
 	
-	if (force_sending)
-	{
-		minLen = 1;
-		if (buffer_data_size > STTP_DATA_FIELD_LEN)
-			actualLen = STTP_DATA_FIELD_LEN;
-		else
-			actualLen = buffer_data_size;
-	}
-	else
-	{
-		minLen = STTP_DATA_FIELD_LEN;
-		actualLen = STTP_DATA_FIELD_LEN;
-	}
 	
 	while(buffer_data_size >= minLen)
 	{
+		int buffer_data_size = buffer.get_data_size();
+		
+		if (urgent)	//jeœli pilne, wyœlemy z bufora wszystko,
+		{			// nawet jeœli w ostatniej iteracji zostanie pojedyñczy bajt
+			minLen = 1;	
+			if (buffer_data_size) > STTP_DATA_FIELD_LEN)	//...ale za jednym razem 
+				actualLen = STTP_DATA_FIELD_LEN;		//co najwy¿ej tyle,
+			else										//ile siê mieœci
+				actualLen = buffer_data_size;			//w polu danych ramki STTP
+		}
+		else		//jeœli nie pilne, to bierzemy tylko ca³ymi d³ugoœciami
+		{			//pola danych ramki STTP, najwy¿ej coœ zostanie w buforze
+			minLen = STTP_DATA_FIELD_LEN;	
+			actualLen = STTP_DATA_FIELD_LEN;	
+		}
+		
 		dataField = buffer.get_packed_data_piece(0, actualLen);
 		buffer.del_data_piece(0, actualLen);
 		

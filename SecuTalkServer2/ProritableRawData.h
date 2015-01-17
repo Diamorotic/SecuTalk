@@ -1,18 +1,15 @@
 #include "RawData.h"
 
-//priorytety danych
-#define HIGH true
-#define LOW false
 
 class PrioritableRawData
 {
 	public:
 	RawData data;
-	bool priority;
+	bool urgent;
 	
-	PrioritableRawData(RawData d, bool pri)
+	PrioritableRawData(RawData d, bool urg)
 	{
 		data = d;
-		priority = pri;
+		urgent = urg;
 	}
 };
