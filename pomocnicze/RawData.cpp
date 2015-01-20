@@ -1,3 +1,6 @@
+#ifndef RAW_DATA_CPP
+#define RAW_DATA_CPP
+
 #include "RawData.h"
 
 
@@ -140,7 +143,7 @@ void RawData::del_data_piece(int beginning, int end)
 	data_size -= deleted_piece_size;
 };
 
-RawData& RawData::operator=(RawData const &right)
+RawData& RawData::operator=(const RawData &right)
 {
 	if (this != &right)
 	{
@@ -166,3 +169,5 @@ RawData& RawData::operator+=(const RawData& right)
 	
 	return *this;
 }
+
+#endif /*RAW_DATA_CPP*/

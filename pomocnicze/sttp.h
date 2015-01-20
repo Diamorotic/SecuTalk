@@ -1,8 +1,11 @@
-#include <windows.h>
-#include <queue>
-#include <stdlib>
+#ifndef STTP_H
+#define STTP_H
 
 #include "deklaracje.hh"
+#include <windows.h>
+#include <queue>
+#include <stdlib.h>
+
 #include "PrioritableRawData.h"
 
 
@@ -43,3 +46,5 @@ class STTP
 
 	int get_data_field_len();
 };
+
+#endif /*STTP_H*/

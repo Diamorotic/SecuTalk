@@ -1,5 +1,8 @@
-#include "sttp.h"
+#ifndef STTP_CPP
+#define STTP_CPP
 
+#include "sttp.h"
+/*
 void STTP::to_net(RawData data)
 {
 	//lock + jakaœ obrona przed pe³n¹ kolejk¹
@@ -153,3 +156,5 @@ int STTP::get_data_field_len()
 {
 	return dataFieldLen;
 };
+*/
+#endif /*STTP_CPP*/
