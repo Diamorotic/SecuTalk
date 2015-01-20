@@ -3,6 +3,7 @@
 
 #include "deklaracje.h"
 #include "RawData.h"
+#include "SharedQueue.h"
 
 class SockNet;
 
@@ -12,8 +13,8 @@ class SockNetSet
 	public:
 	SockNet* sending;
 	SockNet* receiving;
-	std::queue<RawData>* sendingSttpQueue;
-	std::queue<RawData>* recevingSttpQueue;
+	SharedQueue<RawData>* sendingSttpQueue;
+	SharedQueue<RawData>* receivingSttpQueue;
 
 	SockNetSet(SockNet* s, SockNet* r);
 	SockNetSet();

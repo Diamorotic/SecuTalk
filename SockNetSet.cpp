@@ -5,7 +5,7 @@ SockNetSet::SockNetSet(SockNet* s, SockNet* r)
     sending = s;
 	receiving = r;
 	sendingSttpQueue = NULL;
-	recevingSttpQueue = NULL;
+	receivingSttpQueue = NULL;
 };
 
 SockNetSet::SockNetSet()
@@ -13,5 +13,5 @@ SockNetSet::SockNetSet()
 	sending = NULL;
     receiving = NULL;
 	sendingSttpQueue = NULL;
-	recevingSttpQueue = NULL;
+	receivingSttpQueue = NULL;
 };

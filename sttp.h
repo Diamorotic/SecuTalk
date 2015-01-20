@@ -8,6 +8,7 @@
 
 #include "deklaracje.h"
 #include "PrioritableRawData.h"
+#include "SharedQueue.h"
 
 
 class STTP
@@ -17,9 +18,9 @@ class STTP
 	const int direction;	//DIR_TO_NET lub DIR_FROM_NET
 	const int signFieldLen;	//d³ugoœæ pola podpisu w ramce STTP, inicjowana wartoœci¹ zdefiniowanej sta³ej
 	const int sttpFrameSize;	//d³ugoœæ ramki STTP, inicjowana wartoœci¹ obliczon¹ na podstawie zdefiniowanych sta³ych
-	std::queue<RawData>* netQueue;	//wskaŸnik na kolejkê, poœrednicz¹c¹ w komunikacji z warstw¹ obs³uguj¹c¹ sockety
-	std::queue<RawData>* toControllerQueue;	//wskaŸnik na kolejkê, z której pobiera dane kontroler
-	std::queue<PrioritableRawData>* fromControllerQueue; //wskaŸnik na kolejkê, do której wstawia dane kontroler
+	SharedQueue<RawData>* netQueue;	//wskaŸnik na kolejkê, poœrednicz¹c¹ w komunikacji z warstw¹ obs³uguj¹c¹ sockety
+	SharedQueue<RawData>* toControllerQueue;	//wskaŸnik na kolejkê, z której pobiera dane kontroler
+	SharedQueue<PrioritableRawData>* fromControllerQueue; //wskaŸnik na kolejkê, do której wstawia dane kontroler
 	unsigned char frameCtrlNr;	//numer kontrolny ramki - w nag³ówku ka¿dej ramki, umo¿liwia kontrolê integralnoœci danych
 	RawData buffer;		//bufor s³u¿¹cy ³¹czeniu fragmentów ramek / dzieleniu danych na jednakowe porcje
 	std::string sessionKey;	//uzgodniony w czasie autoryzacji klucz sesyjny
@@ -36,8 +37,7 @@ class STTP
 
 	public:
 
-	STTP(std::string sesKey, int dir, std::queue<RawData>* nq, void* cq);	//konstruktor - z wyborem kierunku transmisji danych (dir = DIR_TO_NET lub DIR_FROM_NET)
-	~STTP();	//destruktor - domyslny
+	STTP(std::string sesKey, int dir, SharedQueue<RawData>* nq, void* cq);	//konstruktor - z wyborem kierunku transmisji danych (dir = DIR_TO_NET lub DIR_FROM_NET)
 
 	int single_transmit();	//single_send albo single_receive, w zale¿noœci od direction; zwraca przes³an¹ iloœæ bajtów protoko³u komunikacyjnego
 };

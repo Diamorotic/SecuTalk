@@ -1,7 +1,7 @@
 #ifndef SOCKNET_H
 #define SOCKNET_H
 
-#include <queue>
+#include "SharedQueue.h"
 #include "deklaracje.h"
 #include "RawData.h"
 #include "SockNetSet.h"
@@ -14,7 +14,7 @@ class SockNet
 	SOCKET sckt;
 	const int direction;	//DIR_TO_NET, DIR_FROM_NET lub NO_DIR
 	int state;				//ABLE_TO_CONNECT, CONNECTED, ERRORED
-	std::queue<RawData>* sttpQueue;	//wskaŸnik na kolejkê, do której wrzuca / z której pobiera dane warstwa STTP
+	SharedQueue<RawData>* sttpQueue;	//wskaŸnik na kolejkê, do której wrzuca / z której pobiera dane warstwa STTP
 
 	int to_net(RawData data);	//wysy³a dane do sieci
 	void to_sttp(RawData data);	//umieszcza dane w kolejce wy¿szej warstwy (STTP)
@@ -24,7 +24,7 @@ class SockNet
 	int receive_data();			//przesy³a dane z sieci do kolejki kontrolera, zwraca iloœæ przes³anych bajtów
 
 
-	SockNet(SOCKET s, bool dir, int st, std::queue<RawData>* sttpQ);	//ten konstruktor s³u¿y do przygotowania "kopii" obiektu SockNet,
+	SockNet(SOCKET s, int dir, int st, SharedQueue<RawData>* sttpQ);	//ten konstruktor s³u¿y do przygotowania "kopii" obiektu SockNet,
 	//które bêd¹ s³u¿yæ ju¿ do obs³ugi transmisji danych przez socket (w obie strony - dwie kopie)
 
 	public:
@@ -39,10 +39,10 @@ class SockNet
 	//albo obiekt SockNetSet ze wskaŸnikami z wartoœci¹ NULL, jeœli pierwotny SockNet nie by³ w stanie ABLE_TO_CONNECT
 	//lub przed up³ywem timeoutu nie nadesz³o ¿adne po³¹czenie
 
-	SockNetSet wait_for_incoming_connection(std::queue<RawData>* tSttpQ, std::queue<RawData>* fSttpQ);	//funkcja blokuj¹ca!!!
-	SockNetSet timed_wait_for_incoming_connection(int timeout, std::queue<RawData>* tSttpQ, std::queue<RawData>* fSttpQ);
+	SockNetSet wait_for_incoming_connection(SharedQueue<RawData>* tSttpQ, SharedQueue<RawData>* fSttpQ);	//funkcja blokuj¹ca!!!
+	SockNetSet timed_wait_for_incoming_connection(int timeout, SharedQueue<RawData>* tSttpQ, SharedQueue<RawData>* fSttpQ);
 	int get_state();
-	int transmit_data(); //send(RawData data) albo receive(), w zale¿noœci od direction; zwraca przes³an¹ iloœæ bajtów
+	int transmit_data(); //send_data(RawData data) albo receive_data(), w zale¿noœci od direction; zwraca przes³an¹ iloœæ bajtów
 };
 
 

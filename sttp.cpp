@@ -22,8 +22,8 @@ RawData STTP::from_net()
 	RawData data;
 
 	//lock + jakaœ obrona przed pust¹ kolejk¹
-	data = netQueue->front();
-	netQueue->pop();
+	data = netQueue->pull();
+	//netQueue->pop();
 	//unlock + ew. jakiœ sygna³ o pe³nej kolejce
 
 	return data;
@@ -35,8 +35,8 @@ PrioritableRawData STTP::from_controller()
 	PrioritableRawData pData;
 
 	//lock + jakaœ obrona przed pust¹ kolejk¹
-	pData = fromControllerQueue->front();
-	fromControllerQueue->pop();
+	pData = fromControllerQueue->pull();
+	//fromControllerQueue->pop();
 	//unlock + ew. jakiœ sygna³ o pe³nej kolejce
 
 	return pData;
@@ -240,20 +240,20 @@ int STTP::single_receive()
 };
 
 //konstruktor - z wyborem kierunku transmisji danych (dir = DIR_TO_NET lub DIR_FROM_NET)
-STTP::STTP(std::string sesKey, int dir, std::queue<RawData>* nq, void* cq) :
+STTP::STTP(std::string sesKey, int dir, SharedQueue<RawData>* nq, void* cq) :
 	direction(dir), signFieldLen(STTP_SIGN_FIELD_LEN),
 	sttpFrameSize(STTP_DATA_FIELD_LEN+STTP_SIGN_FIELD_LEN+2)
 {
 	if(dir == DIR_FROM_NET)
 	{
 		frameCtrlNr = 0;
-		toControllerQueue = (std::queue<RawData>*)cq;
+		toControllerQueue = (SharedQueue<RawData>*)cq;
 		fromControllerQueue = NULL;
 	}
 	else if(dir == DIR_TO_NET)
 	{
 		frameCtrlNr = 1;
-		fromControllerQueue = (std::queue<PrioritableRawData>*)cq;
+		fromControllerQueue = (SharedQueue<PrioritableRawData>*)cq;
 		toControllerQueue = NULL;
 	}
 

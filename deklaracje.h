@@ -1,8 +1,7 @@
 #ifndef DEKLARACJE_H
 #define DEKLARACJE_H
 
-
-#include <winsock2.h>
+#include <windows.h>
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
@@ -11,6 +10,7 @@
 #include <time.h>
 #include <string>
 #include <queue>
+
 
 //tryby wylogowania
 #define SERVER_LOG_OUT  0x0     //dostalismy pakiet log_out  //////////nadpisane nad oryginalem
@@ -123,12 +123,6 @@
 //kopiuje zawartość jednego bufora do drugiego bajt po bajcie
 //nie wstawia \0, wymaga podania poprawnej długości
 void data_copy(char* dest, const char* src, int length);
-
-class KomunikatMiedzywatkowy;
-//para tworzona przy zamianie ciagu RawData na struktury
-typedef std::pair<bool, KomunikatMiedzywatkowy> resultPair;
-
-const int suggestedRawDataMaxSize = 64;
 
 struct queued_frame
 {

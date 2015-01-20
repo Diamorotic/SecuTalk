@@ -41,8 +41,8 @@ RawData SockNet::from_sttp()
 	RawData data;
 
 	//lock + jakaœ obrona przed pust¹ kolejk¹
-	data = sttpQueue->front();
-	sttpQueue->pop();
+	data = sttpQueue->pull();
+	//sttpQueue->pop();
 	//unlock + ew. jakiœ sygna³ o pe³nej kolejce
 
 	return data;
@@ -68,7 +68,7 @@ int SockNet::receive_data()
 };
 
 //konstruktor, s³u¿¹cy do budowania "transmisyjnych" kopii z inicjalizacyjnego orygina³u
-SockNet::SockNet(SOCKET s, bool dir, int st, std::queue<RawData>* sttpQ)
+SockNet::SockNet(SOCKET s, int dir, int st, SharedQueue<RawData>* sttpQ)
 : direction(dir)
 {
     sckt = s;
@@ -139,7 +139,7 @@ SockNet::~SockNet()
 };
 
 
-SockNetSet SockNet::wait_for_incoming_connection(std::queue<RawData>* tSttpQ, std::queue<RawData>* fSttpQ)
+SockNetSet SockNet::wait_for_incoming_connection(SharedQueue<RawData>* tSttpQ, SharedQueue<RawData>* fSttpQ)
 {
 	if (state != ABLE_TO_CONNECT)
 		return SockNetSet(NULL, NULL);
@@ -159,7 +159,7 @@ SockNetSet SockNet::wait_for_incoming_connection(std::queue<RawData>* tSttpQ, st
 };
 
 
-SockNetSet SockNet::timed_wait_for_incoming_connection(int timeout, std::queue<RawData>* tSttpQ, std::queue<RawData>* fSttpQ)
+SockNetSet SockNet::timed_wait_for_incoming_connection(int timeout, SharedQueue<RawData>* tSttpQ, SharedQueue<RawData>* fSttpQ)
 {
 	if (state != ABLE_TO_CONNECT)
 		return SockNetSet(NULL, NULL);
@@ -190,4 +190,14 @@ SockNetSet SockNet::timed_wait_for_incoming_connection(int timeout, std::queue<R
 int SockNet::get_state()
 {
 	return state;
+};
+
+int SockNet::transmit_data()
+{
+	if (direction == DIR_TO_NET)
+		return send_data();
+	else if (direction == DIR_FROM_NET)
+		return receive_data();
+	else
+		return 0;
 };
